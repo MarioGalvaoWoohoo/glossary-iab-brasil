@@ -1,0 +1,65 @@
+version: "3.7"
+services:
+
+    app-glossary:
+        container_name: app-glossary
+        build:
+            args:
+                user: iab-brasil
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: laravel-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - api-glossary
+
+    nginx:
+        container_name: nginx-glossary
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - 8182:80
+            - 443:443
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - api-glossary
+
+    mysql:
+        container_name: db-glossary
+        image: mysql:5.7.33
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - 3307:3306
+        networks:
+            - api-glossary
+
+    # sonarqube:
+    #     container_name: sonar-qube-tdd
+    #     image: sonarqube:latest
+    #     ports:
+    #         - "9001:9000"
+    #     networks:
+    #         - api-glossary
+
+    # redis:
+    #     container_name: redis-message
+    #     image: redis:latest
+    #     networks:
+    #         - api-message
+
+networks:
+    api-glossary:
+        driver: bridge

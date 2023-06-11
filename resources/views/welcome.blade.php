@@ -27,11 +27,11 @@
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-12">
-                            <div class="flex items-center">
-                                <a href="/search">
+                            <a href="/search">
+                                <div class="flex items-center">
                                     <div class="ml-4 text-lg leading-9 font-semibold text-gray-900 dark:text-white">IAB - Glossário</div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
